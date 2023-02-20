@@ -34,9 +34,16 @@ def ls(topology,src):
 
 # distance vector routing with Bellman-Ford equation
 def dv(topology,src):
-    nodes = topology[0][1:]
+    srcIndex = topology[0][1:].index(str(src))
+    nodes = topology[0][1 + srcIndex:]
+    str1 = ""
     for node in range(len(nodes)):
-        print("Distance vector for node {}: ".format(nodes[node]))
+        str1 += "Distance vector for node {}:".format(nodes[node])
+        values = topology[node + srcIndex + 1][1:]
+        for val in range(len(values)):
+            str1 += " {}".format(values[val])
+        str1 += "\n"
+    print(str1)
 
 ### MAIN ###
 # check for proper input args
