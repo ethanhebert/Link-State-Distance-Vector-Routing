@@ -38,12 +38,13 @@ def ls(topology,src):
     for i in range(len(topology[0])):
         if (topology[0][i] == src):
             srcRow = i
+            break
     for i in range(len(nodes)):
         distances[nodes[i]] = int(topology[srcRow][i+1])
         previous[nodes[i]] = src
     # loop until every node's least-cost path is known (all in Nprime)
     while (len(nodes) != len(Nprime)):
-        # currNode holds the neighbor with the shortest path
+        # currNode holds the next node with the shortest path
         minimum = 9999
         for node in nodes:
             if not(node in Nprime):
@@ -51,13 +52,33 @@ def ls(topology,src):
                     currNode = node
                     minimum = distances[currNode]
         Nprime.append(currNode)
-        break
+        # update distances for all neighbors of currNode not in Nprime
+        neighbors = []
+        for i in range(len(topology[0])):
+            if (topology[0][i] == currNode):
+                currNodeRow = i
+                break
+        for i in range(len(topology[currNodeRow])):
+            if (topology[currNodeRow][i] != '9999'):
+                neighbors.append(topology[0][i])
+        for i in range(len(nodes)):
+            if not(nodes[i] in Nprime):
+                if (nodes[i] in neighbors):
+                    distances[nodes[i]] = min(distances[nodes[i]], 
+                        distances[currNode] + int(topology[currNodeRow][i+1]))
 
-
-
+    # print out the shortest path tree
     print("Shortest path tree for node {}:".format(src))
 
+    # print out the least-cost paths (distances values)
     print("Costs of the least-cost paths for node {}:".format(src))
+    output = ""
+    for i in range(len(nodes)):
+        output += nodes[i] + ":" + str(distances[nodes[i]])
+        if (i != len(nodes)-1):
+            output += ", "
+    print(output)
+
 
 # distance vector routing with Bellman-Ford equation
 def dv(topology,src):
@@ -121,4 +142,4 @@ else:
     ls(topology,src)
     print()
     # distance vector routing
-    dv(topology,src)
+    # dv(topology,src)
