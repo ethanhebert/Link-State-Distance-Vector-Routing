@@ -80,53 +80,46 @@ def ls(topology,src):
     print(output)
 
 # distance vector routing with Bellman-Ford equation
-def dv(topology,src):
-    srcIndex = topology[0][1:].index(str(src))
-    nodes = topology[0][1 + srcIndex:]
+def dv(topology):
     str1 = ""
-    str2 = ""
-    for node in range(len(nodes)):
-        str1 += "Distance vector for node {}:".format(nodes[node])
 
+    allNodes = topology[0][1:]
+
+    nodesNeighbors = ["" for c in range(len(allNodes))]
+
+    for j in range(1, len(allNodes) + 1):
+        allValues = topology[j][1:]
+        neighborsNum = len(allValues) - allValues.count("9999") - 1
+
+        # So now I know how many neighbors a node has, but I do not know who they are
+        # I want a list with an X number of empty strings; X is the number of neighbors I know I have
+        # neighbors = ["" for z in range(neighbors)] does that for me easily.
+
+        neighbors = ["" for z in range(neighborsNum)]
+
+        # then go through allValues list and get the index of the values that arent 0 or 9999
+        # Add allNodes[allValues.index(number that is not 0 or 9999)] to neighbors list.
+        # So for u: v, w, x values are not 0 or 9999, so get their indexes of 1, 2, and 3
+        # and add to neighbors[0] = allNodes[1], 
+        # neighbors[1] = allNodes [2], neighbors[2] = allNodes[3]
+        # At the end, nodeNeighbors should be: ["v", "w", "x"]
+
+        k = 0
+        valIndex = 0
         
-
-        values = topology[node + srcIndex + 1][1:]
-        for val in range(len(values)):
-            str1 += " {}".format(values[val])
-
-        allNodes = topology[0][1:]
-        # Bellmand-Ford
-        for j in range(1, len(allNodes)):
-            allValues = topology[j][1:]
-            neighbors = len(allValues) - allValues.count(9999) - 1
-
-            # So now I know how many neighbors a node has, but I do not know who they are
-            # I want a list with an X number of empty strings; X is the number of neighbors I know I have
-            # nodeNeighbors = ["" for z in range(neighbors)] does that for me easily.
-
-            nodeNeighbors = ["" for z in range(neighbors)]
-
-            # then go through allValues list and get the index of the values that arent 0 or 9999
-            # Add allNodes[allValues.index(number that is not 0 and 9999)] to nodeNeighbors list.
-            # So for u: v, w, x values are not 0 or 9999, so get their indexes of 1, 2, and 3
-            # and add to nodeNeighbors[0] = allNodes[1], 
-            # nodeNeighbors[1] = allNodes [2], nodeNeighbors[2] = allNodes[3]
-            # At the end, nodeNeighbors should be: ["v", "w", "x"]
-
-            k = 0
-
-            for val in allValues:
-                if (val != 0 and val != 9999):
-                    nodeNeighbors[k] = allNodes[allValues.index(val)]
-                    k = k + 1
-
-
-        #str2 += "Bellman-Ford for node    {}: {}\n".format(nodes[node], dist)
-
-        str1 += "\n"
+        for val in allValues:    
+            if (int(val) != 0 and int(val) != 9999):
+                neighbors[k] = allNodes[valIndex]
+                k = k + 1
+            if (k == neighborsNum):
+                break
+            valIndex = valIndex + 1
+        nodesNeighbors[j - 1] = neighbors
+        
+    for node in range(len(allNodes)):
+        str1 += "Distance vector for node {}:\n".format(allNodes[node])
+        
     print(str1)
-    print()
-    print(str2)
 
 ### MAIN ###
 # check for proper input args
@@ -141,4 +134,4 @@ else:
     ls(topology,src)
     print()
     # distance vector routing
-    dv(topology,src)
+    dv(topology)
