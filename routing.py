@@ -64,13 +64,44 @@ def dv(topology,src):
     srcIndex = topology[0][1:].index(str(src))
     nodes = topology[0][1 + srcIndex:]
     str1 = ""
+    str2 = ""
     for node in range(len(nodes)):
         str1 += "Distance vector for node {}:".format(nodes[node])
+
+        
+
         values = topology[node + srcIndex + 1][1:]
         for val in range(len(values)):
             str1 += " {}".format(values[val])
+
+        allNodes = topology[0][1:]
+        # Bellmand-Ford
+        for j in range(1, len(allNodes)):
+            allValues = topology[j][1:]
+            neighbors = len(allValues) - allValues.count(9999) - 1
+            nodeNeighbors = ["" for z in range(neighbors)]
+
+            # want a list with the number of neighbors neigh = ["" for z in range(neighbors)]
+            # then go through allValues list and get the index of the values that arent 0 or 9999
+            # append nodes[found index] to neigh list.
+            # So for u, v, w, x values are not 0 or 9999, so get their indexes of 1, 2, and 3
+            # and append allNodes[1], allNodes [2], allNodes[3] to neigh so that neigh list has:
+            # ["v", "w", "x"] in it
+
+            k = 0
+
+            for val in allValues:
+                if (val != 0 and val != 9999):
+                    nodeNeighbors[k] = allNodes[allValues.index(val)]
+                    k = k + 1
+
+
+        #str2 += "Bellman-Ford for node    {}: {}\n".format(nodes[node], dist)
+
         str1 += "\n"
     print(str1)
+    print()
+    print(str2)
 
 ### MAIN ###
 # check for proper input args
