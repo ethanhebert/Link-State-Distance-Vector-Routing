@@ -28,6 +28,33 @@ def getSrc(nodes):
 
 # link-state routing with Dijkstra's algorithm
 def ls(topology,src):
+    # initialization
+    nodes = topology[0][1:]
+    distances = {}
+    previous = {}
+    Nprime = [src]
+    # get the distances to every neighbor of src
+    # not a neighbor = 9999 (infinity)
+    for i in range(len(topology[0])):
+        if (topology[0][i] == src):
+            srcRow = i
+    for i in range(len(nodes)):
+        distances[nodes[i]] = int(topology[srcRow][i+1])
+        previous[nodes[i]] = src
+    # loop until every node's least-cost path is known (all in Nprime)
+    while (len(nodes) != len(Nprime)):
+        # currNode holds the neighbor with the shortest path
+        minimum = 9999
+        for node in nodes:
+            if not(node in Nprime):
+                if (distances[node] < minimum):
+                    currNode = node
+                    minimum = distances[currNode]
+        Nprime.append(currNode)
+        break
+
+
+
     print("Shortest path tree for node {}:".format(src))
 
     print("Costs of the least-cost paths for node {}:".format(src))
