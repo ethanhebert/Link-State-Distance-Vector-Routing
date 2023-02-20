@@ -20,20 +20,35 @@ def createMatrix(file):
 def getSrc(nodes):
     src = input("Please, provide the source node: ")
     if (src in nodes):
-        print("Shortest path tree for node {}:".format(src))
         return src
     else:
         print("This node is not found in the topology.\n")
         src = getSrc(nodes)
         return src
 
+# link-state routing with Dijkstra's algorithm
+def ls(topology,src):
+    print("Shortest path tree for node {}:".format(src))
+
+    print("Costs of the least-cost paths for node {}:".format(src))
+
+# distance vector routing with Bellman-Ford equation
+def dv(topology,src):
+    nodes = topology[0][1:]
+    for node in range(len(nodes)):
+        print("Distance vector for node {}: ".format(nodes[node]))
 
 ### MAIN ###
 # check for proper input args
 if (len(sys.argv) < 2):
     print("Correct Usage:\npython routing.py <filename.csv>")
 else:
-    # convert the csv input to a topology matrix
+    # get the topology matrix
     topology = createMatrix(sys.argv[1])
     # get the source node
-    src = getSrc(topology[0])
+    src = getSrc(topology[0][1:])
+    # link-state routing
+    ls(topology,src)
+    print()
+    # distance vector routing
+    dv(topology,src)
