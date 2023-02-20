@@ -79,14 +79,19 @@ def dv(topology,src):
         for j in range(1, len(allNodes)):
             allValues = topology[j][1:]
             neighbors = len(allValues) - allValues.count(9999) - 1
+
+            # So now I know how many neighbors a node has, but I do not know who they are
+            # I want a list with an X number of empty strings; X is the number of neighbors I know I have
+            # nodeNeighbors = ["" for z in range(neighbors)] does that for me easily.
+
             nodeNeighbors = ["" for z in range(neighbors)]
 
-            # want a list with the number of neighbors neigh = ["" for z in range(neighbors)]
             # then go through allValues list and get the index of the values that arent 0 or 9999
-            # append nodes[found index] to neigh list.
-            # So for u, v, w, x values are not 0 or 9999, so get their indexes of 1, 2, and 3
-            # and append allNodes[1], allNodes [2], allNodes[3] to neigh so that neigh list has:
-            # ["v", "w", "x"] in it
+            # Add allNodes[allValues.index(number that is not 0 and 9999)] to nodeNeighbors list.
+            # So for u: v, w, x values are not 0 or 9999, so get their indexes of 1, 2, and 3
+            # and add to nodeNeighbors[0] = allNodes[1], 
+            # nodeNeighbors[1] = allNodes [2], nodeNeighbors[2] = allNodes[3]
+            # At the end, nodeNeighbors should be: ["v", "w", "x"]
 
             k = 0
 
