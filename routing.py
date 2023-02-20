@@ -79,7 +79,6 @@ def ls(topology,src):
             output += ", "
     print(output)
 
-
 # distance vector routing with Bellman-Ford equation
 def dv(topology,src):
     srcIndex = topology[0][1:].index(str(src))
@@ -142,4 +141,4 @@ else:
     ls(topology,src)
     print()
     # distance vector routing
-    # dv(topology,src)
+    dv(topology,src)
