@@ -102,7 +102,7 @@ def dv(topology):
         # So for u: v, w, x values are not 0 or 9999, so get their indexes of 1, 2, and 3
         # and add to neighbors[0] = allNodes[1], 
         # neighbors[1] = allNodes [2], neighbors[2] = allNodes[3]
-        # At the end, nodeNeighbors should be: ["v", "w", "x"]
+        # At the end, nodeNeighbors should be: ["v", "w", "x"] for node u
 
         k = 0
         valIndex = 0
