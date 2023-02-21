@@ -64,11 +64,27 @@ def ls(topology,src):
         for i in range(len(nodes)):
             if not(nodes[i] in Nprime):
                 if (nodes[i] in neighbors):
-                    distances[nodes[i]] = min(distances[nodes[i]], 
-                        distances[currNode] + int(topology[currNodeRow][i+1]))
+                    oldCost = distances[nodes[i]]
+                    newCost = distances[currNode] + int(topology[currNodeRow][i+1])
+                    # here tracks previous nodes for shortest path tree
+                    # oldCost is smaller, shortest path remains the same
+                    if (oldCost <= newCost):
+                        pass
+                    # newCost is smaller, shortest path updates to the path to the 
+                    # currNode plus the currNode
+                    else:
+                        distances[nodes[i]] = newCost
+                        previous[nodes[i]] = previous[currNode] + currNode
 
     # print out the shortest path tree
     print("Shortest path tree for node {}:".format(src))
+    output = ""
+    for node in Nprime:
+        if (node != src):
+            output += previous[node] + node
+            if (node != Nprime[len(Nprime)-1]):
+                output += ", "
+    print(output)
 
     # print out the least-cost paths (distances values)
     print("Costs of the least-cost paths for node {}:".format(src))
